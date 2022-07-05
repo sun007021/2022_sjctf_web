@@ -5,9 +5,9 @@ from django.views.generic import CreateView
 
 
 # Create your views here.
-def CsRegisterView(request):
+def register(request):
     if request.method == "POST":
-        form = request(request.POST)
+        form = CsRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -16,5 +16,5 @@ def CsRegisterView(request):
             login(request, user)  # 로그인
             return redirect('index')
     else:
-        form = CsRegisterForm()
+        form = CsRegisterForm
     return render(request, 'users/register.html', {'form': form})

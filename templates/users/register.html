@@ -1,7 +1,9 @@
+{% extends "base.html" %}
 {% block content %}
 <div class="container my-3">
     <form method="post" action="{% url 'users:register' %}">
         {% csrf_token %}
+        {% include "form_errors.html" %}
         <div class="mb-3">
             <label for="username">사용자 이름</label>
             <input type="text" class="form-control" name="username" id="username"
