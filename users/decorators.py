@@ -33,3 +33,21 @@ def logout_message_required(function):
             return redirect('/users/main/')
         return function(request, *args, **kwargs)
     return wrap
+
+# group1 확인
+def check_user_able_to_see_page1(function):
+    def wrap(request, *args, **kwargs):
+        if request.user.groups.filter(name="세종대학교").exists():
+            return function(request, *args, **kwargs)
+        return redirect('/board/commonboard')
+
+    return wrap
+
+# group2 확인
+def check_user_able_to_see_page2(function):
+    def wrap(request, *args, **kwargs):
+        if request.user.groups.filter(name="SSG대학교").exists():
+            return function(request, *args, **kwargs)
+        return redirect('/board/commonboard')
+
+    return wrap

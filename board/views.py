@@ -1,21 +1,44 @@
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
-from .models import CommonBoard
+from .models import CommonBoard, PrivateBoard1, PrivateBoard2
 from .forms import CommonBoardForm
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from users.decorators import login_message_required
+from users.decorators import login_message_required, check_user_able_to_see_page1, check_user_able_to_see_page2
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 def index(request):
     return HttpResponse("안녕하세요 오신것을 환영합니다.")
 
-class IndexView(ListView):
+class IndexView(ListView):# 공통 게시판
     def get_queryset(self):
         return CommonBoard.objects.order_by('-create_date')
 
 
 class DetailView(DetailView):
     model = CommonBoard
+
+# @login_message_required
+
+@method_decorator(check_user_able_to_see_page1, name='dispatch')
+class IndexViewP1(ListView):#비밀 게시판1
+    def get_queryset(self):
+        return PrivateBoard1.objects.order_by('-create_date')
+
+@method_decorator(check_user_able_to_see_page1, name='dispatch')
+class DetailViewP1(DetailView):
+    model = PrivateBoard1
+
+
+@method_decorator(check_user_able_to_see_page2, name='dispatch')
+class IndexViewP2(ListView):#비밀 게시판2
+    def get_queryset(self):
+        return PrivateBoard2.objects.order_by('-create_date')
+
+@method_decorator(check_user_able_to_see_page2, name='dispatch')
+class DetailViewP2(DetailView):
+    model = PrivateBoard2
 
 @login_message_required
 def commonboard_create(request):
