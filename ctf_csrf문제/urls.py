@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
+    path('board/', include('board.urls')),
 ]
