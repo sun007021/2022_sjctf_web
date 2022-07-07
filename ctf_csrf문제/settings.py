@@ -108,6 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_COOKIE_HTTPONLY = False
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -138,3 +139,5 @@ LOGIN_REDIRECT_URL = '/board/commonboard/'
 LOGOUT_REDIRECT_URL = '/users/login/'
 
 LOGIN_URL='/users/login/'
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None

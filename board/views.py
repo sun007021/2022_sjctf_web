@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 
 def index(request):
-    return HttpResponse("안녕하세요 오신것을 환영합니다.")
+    return render(request, 'board/index.html')
 
 class IndexView(ListView):# 공통 게시판
     def get_queryset(self):
