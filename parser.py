@@ -40,7 +40,7 @@ while True:
              })
         while True:
             try:
-                req = s.get('http://127.0.0.1:8000/board/commonboard/')
+                req = s.get('http://127.0.0.1:8213/board/commonboard/')
                 html2 = req.text
                 soup2 = bs(html2, 'html.parser')
                 posts = soup2.find("tr", {"class":"list1"})
@@ -50,7 +50,7 @@ while True:
                 if post_num != latest_num:
                     latest_num = post_num
                     print(latest_num)
-                    link = 'http://127.0.0.1:8000/board/commonboard/'+post_num
+                    link = 'http://127.0.0.1:8213/board/commonboard/'+post_num
                     driver.get(link)
                 time.sleep(15)
             except:

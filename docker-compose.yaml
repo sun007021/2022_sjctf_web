@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+        django:
+                build: .
+                command: python manage.py runserver 0:8213
+                ports:
+                        - 8213:8213
+                volumes:
+                        - ./:/django
+                networks:
+                        - backend
+        parser:
+                container_name: parser
+                build: .
+                command: python parser.py
+                depends_on:
+                        - django
+
+networks:
+        backend:        
