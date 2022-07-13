@@ -12,4 +12,5 @@ urlpatterns = [
     path('SSG대학교/', views.IndexViewP2.as_view(), name='privateboard2_list'),
     path('SSG대학교/<int:pk>/', views.DetailViewP2.as_view(), name='p2_detail'),
     path('commonboard/create', views.commonboard_create, name='commonboard_create'),
+    path('index/',views.index, name='index'),
 ]
