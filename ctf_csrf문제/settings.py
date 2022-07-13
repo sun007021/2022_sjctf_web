@@ -109,6 +109,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_AGE = 86400
+SESSION_SAVE_EVERY_REQUEST = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

@@ -13,8 +13,8 @@
         <tbody>
         {% if commonboard_list %}
         {% for commonboard in commonboard_list %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
+        <tr class="list1">
+            <td class="num">{{ commonboard.id }}</td>
             <td>
                 <a href="{% url 'board:detail' commonboard.id %}">{{ commonboard.title }}</a>
             </td>

@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 def index(request):
     return render(request, 'board/index.html')
 
+@method_decorator(login_message_required,name='dispatch')
 class IndexView(ListView):# 공통 게시판
     def get_queryset(self):
         return CommonBoard.objects.order_by('-create_date')

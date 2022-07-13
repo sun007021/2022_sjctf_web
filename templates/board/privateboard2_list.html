@@ -13,7 +13,7 @@
         {% if privateboard2_list %}
         {% for privateboard2 in privateboard2_list %}
         <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>{{ privateboard2.id }}</td>
             <td>
                 <a href="{% url 'board:p2_detail' privateboard2.id %}">{{ privateboard2.title }}</a>
             </td>

@@ -14,7 +14,7 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)  # 사용자 인증
             login(request, user)  # 로그인
-            return redirect('board/index/')
+            return redirect('/board/index/')
     else:
         form = CsRegisterForm
     return render(request, 'users/register.html', {'form': form})
