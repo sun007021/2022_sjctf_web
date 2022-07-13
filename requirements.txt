@@ -2,4 +2,4 @@ Django
 requests
 selenium
 beautifulsoup4
-webdriver-manager
+webdriver_manager
