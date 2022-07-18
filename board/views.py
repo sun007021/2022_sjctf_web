@@ -7,7 +7,7 @@ from django.utils import timezone
 from users.decorators import login_message_required, check_user_able_to_see_page1, check_user_able_to_see_page2
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
-from django.contrib.auth.models import User
+from users.models import User
 
 def index(request):
     return render(request, 'board/index.html')
@@ -49,9 +49,7 @@ def commonboard_create(request):
         if form.is_valid():
             commonboard = form.save(commit=False)
             commonboard.create_date = timezone.now()
-            session_id = request.session.get('sessionid')
-            user = User.objects.get(user_id= session_id)
-            commonboard.writer = user
+            commonboard.writer = request.user
             commonboard.save()
             return redirect('board:commonboard_list')
     else:

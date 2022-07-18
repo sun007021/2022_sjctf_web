@@ -3,6 +3,7 @@
 import os
 from django.conf import settings
 from django.db import models
+from users.models import User
 import datetime
 
 class CommonBoard(models.Model): #공통 게시판
