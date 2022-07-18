@@ -9,7 +9,7 @@ from django.http import HttpResponse
 def login_message_required(function):
     def wrap(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            messages.info(request, "로그인한 사용자만 이용할 수 있습니다.")
+            messages.warning(request, "로그인한 사용자만 이용할 수 있습니다.")
             return redirect(settings.LOGIN_URL)
         return function(request, *args, **kwargs)
     return wrap
@@ -20,7 +20,7 @@ def admin_required(function):
     def wrap(request, *args, **kwargs):
         if request.usetr.level == '1' or request.user.level == '0':
             return function(request, *args, **kwargs)
-        messages.info(request, "접근 권한이 없습니다.")
+        messages.warning(request, "접근 권한이 없습니다.")
         return redirect('/users/main/')
     return wrap
 
@@ -39,6 +39,8 @@ def check_user_able_to_see_page1(function):
     def wrap(request, *args, **kwargs):
         if request.user.groups.filter(name="세종대학교").exists():
             return function(request, *args, **kwargs)
+        else:
+            messages.warning(request, "세종대학교 학생만 이용가능합니다.")
         return redirect('/board/commonboard')
 
     return wrap
@@ -48,6 +50,8 @@ def check_user_able_to_see_page2(function):
     def wrap(request, *args, **kwargs):
         if request.user.groups.filter(name="SSG대학교").exists():
             return function(request, *args, **kwargs)
+        else:
+            messages.warning(request, "SSG대학교 학생만 이용가능합니다.")
         return redirect('/board/commonboard')
 
     return wrap
