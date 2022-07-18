@@ -34,18 +34,19 @@ while True:
 
         # LOGIN_INFO에 csrf값을 추가
         LOGIN_INFO = {**LOGIN_INFO, **{'csrfmiddlewaretoken': csrf['value']}}
-        print(LOGIN_INFO)
-
-        # 로그인
-        login_req = s.post('http://101.101.217.175:8213/users/login/', data=LOGIN_INFO)
-        print(login_req.status_code)
-        dic=s.cookies.get_dict()
-        driver.get('http://101.101.217.175:8213/')
-        for cookie, value in dic.items():
-             driver.add_cookie({
-                'name': cookie,
-                'value': value,
-             })
+        try:
+            # 로그인
+            login_req = s.post('http://101.101.217.175:8213/users/login/', data=LOGIN_INFO)
+            print(login_req.status_code)
+            dic=s.cookies.get_dict()
+            driver.get('http://101.101.217.175:8213/')
+            for cookie, value in dic.items():
+                 driver.add_cookie({
+                    'name': cookie,
+                    'value': value,
+                 })
+        except:
+            continue
         while True:
             try:
                 req = s.get('http://101.101.217.175:8213/board/commonboard/')
