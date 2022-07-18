@@ -15,13 +15,19 @@ def index(request):
 @method_decorator(login_message_required,name='dispatch')
 class IndexView(ListView):# 공통 게시판
     def get_queryset(self):
-        return CommonBoard.objects.order_by('-create_date')
+        if self.request.user.groups.filter(name="세종대학교").exists(): # 세종대 즉 참가자의 경우 자신의 글만 보이도록함
+            mypost = CommonBoard.objects.filter(writer=self.request.user)
+            return mypost.order_by('-create_date')
+        else: #참가자가 아닌경우 (ssg 크롤러)는 모든글을 볼 수 있도록함
+            return CommonBoard.objects.order_by('-create_date')
 
-
+@method_decorator(login_message_required,name='dispatch')
 class DetailView(DetailView):
     model = CommonBoard
-
-# @login_message_required
+    def get(self, request, *args, **kwargs): # 자기글만 확인 가능
+        if self.request.user.groups.filter(name="세종대학교").exists():
+            self.object = self.get_object(queryset=CommonBoard.objects.filter(writer=self.request.user))
+        return super().get(request, *args, **kwargs)
 
 @method_decorator(check_user_able_to_see_page1, name='dispatch')
 class IndexViewP1(ListView):#비밀 게시판1
