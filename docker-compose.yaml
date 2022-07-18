@@ -3,7 +3,7 @@ version: "3"
 services:
         django:
                 build: .
-                command: python manage.py runserver 0:8213
+                command: python3 manage.py runserver 0:8213
                 ports:
                         - 8213:8213
                 volumes:
@@ -13,9 +13,13 @@ services:
         parser:
                 container_name: parser
                 build: .
-                command: python parser.py
+                command: python3 parser.py
                 depends_on:
                         - django
+                networks:
+                        - backend
+                extra_hosts:
+                        - "host.docker.internal:host-gateway"
 
 networks:
         backend:        

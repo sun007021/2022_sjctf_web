@@ -4,9 +4,18 @@ from bs4 import BeautifulSoup as bs
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
+#chrome_options = webdriver.ChromeOptions()
+#driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 chrome_options = webdriver.ChromeOptions()
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
+chrome_options.add_argument('--headless')
+
+chrome_options.add_argument('--no-sandbox')
+
+chrome_options.add_argument('--disable-dev-shm-usage')
+service = Service('/usr/local/bin/chromedriver')
+driver = webdriver.Chrome(service=service,options=chrome_options)
 # 로그인할 유저정보
 LOGIN_INFO = {
     'username': 'ssguser',
@@ -17,7 +26,7 @@ latest_num = 0
 # Session 생성, with 구문 안에서 유지
 while True:
     with requests.Session() as s:
-        first_page = s.get('http://127.0.0.1:8000/users/login/')
+        first_page = s.get('http://host.docker.internal:8213/users/login/')
         html = first_page.text
         soup = bs(html, 'html.parser')
         csrf = soup.find('input', {'name': 'csrfmiddlewaretoken'}) # input태그 중에서 name이 csrfmiddlewaretoken가져옴
@@ -28,10 +37,10 @@ while True:
         print(LOGIN_INFO)
 
         # 로그인
-        login_req = s.post('http://127.0.0.1:8000/users/login/', data=LOGIN_INFO)
+        login_req = s.post('http://host.docker.internal:8213/users/login/', data=LOGIN_INFO)
         print(login_req.status_code)
         dic=s.cookies.get_dict()
-        driver.get('http://127.0.0.1:8000/')
+        driver.get('http://host.docker.internal:8213/')
         for cookie, value in dic.items():
              driver.add_cookie({
                 'name': cookie,
@@ -40,7 +49,7 @@ while True:
              })
         while True:
             try:
-                req = s.get('http://127.0.0.1:8213/board/commonboard/')
+                req = s.get('http://host.docker.internal:8213/board/commonboard/')
                 html2 = req.text
                 soup2 = bs(html2, 'html.parser')
                 posts = soup2.find("tr", {"class":"list1"})
@@ -50,7 +59,7 @@ while True:
                 if post_num != latest_num:
                     latest_num = post_num
                     print(latest_num)
-                    link = 'http://127.0.0.1:8213/board/commonboard/'+post_num
+                    link = 'http://1host.docker.internal:8213/board/commonboard/'+post_num
                     driver.get(link)
                 time.sleep(15)
             except:
