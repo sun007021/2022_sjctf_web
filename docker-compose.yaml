@@ -3,7 +3,7 @@ version: "3"
 services:
         django:
                 build: .
-                command: python3 manage.py runserver 0:8213
+                command: python3 manage.py runserver 0:8213 --insecure
                 ports:
                         - 8213:8213
                 volumes:
