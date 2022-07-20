@@ -25,6 +25,7 @@ latest_num = 0
 
 # Session 생성, with 구문 안에서 유지
 while True:
+    time.sleep(10)
     with requests.Session() as s:
         first_page = s.get('http://101.101.217.175:8213/users/login/')
         html = first_page.text
